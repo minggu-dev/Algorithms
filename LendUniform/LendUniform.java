@@ -57,4 +57,82 @@ public class LendUniform {
 		System.out.println(ob.solution(10, lost, reser));
 		
 	}
+
+/* Map을 이용해서 문제풀이
+import java.util.Map;
+import java.util.HashMap;
+class Solution {
+	public int solution(int n, int[] lost, int[] reserve) {
+		int answer = n;
+		Map<Integer,Integer> lostList = new HashMap<>();
+		Map<Integer,Integer> reserveList = new HashMap<>();
+		
+		for(int i : lost) {
+			lostList.put(i,i);
+		}
+		for(int j: reserve) {
+			if(lostList.containsValue(j)) {
+				lostList.remove(j);
+			}else {
+				reserveList.put(j,j);
+			}
+		}
+		
+		for(int i : lostList.keySet()) {
+			if(reserveList.containsValue(i - 1)) {
+				reserveList.remove(i - 1);
+			}else if(reserveList.containsValue(i + 1)) {
+				reserveList.remove(i + 1);
+			}else {
+				answer--;
+			}
+		}
+		return answer;		
+	}
+}*/
+/* 배열을 생성하여 문제풀이
+class Solution {
+    public int solution(int n, int[] lost, int[] reserve) {
+		int answer = n;
+		int[] allStu = new int[n];
+		
+		for(int i : lost) {
+			allStu[i - 1]--;
+		}
+		
+		for(int i : reserve) {
+			allStu[i - 1]++;
+		}
+		
+		for(int i = 0; i < n; i++) {
+			if(allStu[i] == -1) {
+				if(i > 0 && i < n - 1) {
+					if(allStu[i - 1] == 1) {
+						allStu[i]++;
+						allStu[i - 1]--;
+					}else if(allStu[i + 1] == 1) {
+						allStu[i]++;
+						allStu[i + 1]--;
+					}else
+						answer--;
+				}else if (i == 0) {
+					if(allStu[i + 1] == 1){
+						allStu[i]++;
+						allStu[i + 1]--;
+					}else
+						answer--;
+				}else if(i == n-1) {
+					if(allStu[i - 1] == 1){
+						allStu[i]++;
+						allStu[i - 1]--;
+					}else
+						answer--;
+				}
+			}
+		}
+		return answer;
+		
+	}
+}
+*/
 }
